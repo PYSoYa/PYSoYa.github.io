@@ -1,12 +1,441 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400&display=swap');
+        @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css");
+        span {
+            font-family: 'Noto Sans KR', sans-serif;
+            
+        }
+
+        p {
+            font-size: 12px;
+            margin-bottom: 5px; 
+            margin-left:4px;
+        }
+
+        h1 {
+            font-family: 'Noto Sans KR', sans-serif;
+            text-align: center;
+            overflow: auto;
+            margin-top: 50px;
+        }
+
+        select {
+            box-sizing: border-box;
+            border:1px solid #bad4ff;
+            border-radius: 4px;
+            border-color: #bad4ff;
+            height: 39px;
+            width: 39px;
+        }
+
+
+        .main {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -35%);
+        }
+
+        .main .text {
+            margin-left: 1px;
+            height: fit-content;
+
+        }
+
+        #button1 {
+            font-family: 'Noto Sans KR', sans-serif;
+            margin-left: 1px;
+            height: 40px;
+            width: 100%;
+            background-color: #222222;
+            display: inline-block;
+            font-family: 'Noto Sans KR', sans-serif;
+            border-color: #222222;
+            border-radius: 4px;
+            color: white;
+            margin-bottom: 40px;
+            
+        }
+        
+        #gender {
+            width: 100%;
+            margin-left: 1px;
+        }
+
+        #year {
+
+            margin-left: 1px;
+        }
+
+        #emailadress {
+
+            margin-left: 1px;
+        }
+
+
+
+        input {
+            box-sizing: border-box;
+            border:1px solid #bad4ff;
+            border-radius: 4px;
+            border-color: #bad4ff;
+            width: 100%;
+            height: 40px;
+            
+            /* border: 2px; */
+        }
+        #newid{
+            box-sizing: border-box;
+            border:1px solid #bad4ff;
+            border-radius: 4px;
+            border-color: #bad4ff;
+            height: 40px;
+            width: 300px;
+            padding-bottom: 1px !important;
+            
+        }
+        #idcheck{
+            font-family: 'Noto Sans KR', sans-serif;
+            margin-left: 1px;
+            height: 40px;
+            width: 92px;
+            background-color: #222222;
+            display: inline-block;
+            font-family: 'Noto Sans KR', sans-serif;
+            border-color: #222222;
+            border-radius: 4px;
+            color: white;
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+            border-top: 0 !important;
+            border-bottom: 0 !important;
+        }
+        input:focus{
+            box-shadow:0 0 8px 0 #bad4ff;
+            outline: none;
+            
+        }
+
+        input[type="email"] {
+            border:1px solid #bad4ff;
+            border-radius: 4px;
+            border-color: #bad4ff;
+            width: 100%;
+            height: 40px;
+        }
+
+        input[type="emaila"] {
+            width: 140px;
+            height: 40px;
+        }
+
+        input[type="year"] {
+            width: 174px;
+            ;
+        }
+
+        input[type="day"] {
+            width: 174px;
+        }
+        input:focus::placeholder{
+            font-size:2px;
+            text-align: center;
+            position:fixed;
+            left:0;
+            top:0;
+            transition: 0.2s;
+        }
+
+        
+    </style>
 </head>
+
 <body>
-    <h2>회원가입페이지</h2>
+
+    <div style="border:1px solid hidden; height: 1000px; width: 400px;" class="main">
+        <h1 id="h21">회원가입</h1><br>
+        <span>아이디</span> <br>
+        <div class="text">
+            <input type="text" id="newid" onblur="createid()" placeholder="ID를 입력하세요.">
+            <button name="" id="idcheck" >중복확인</button>
+            <p id="id1"></p>
+        </div>
+        
+        
+        <span>비밀번호</span> <br>
+        <div class="text">
+            <input type="password" id="pwd" onblur="pwd()">
+        </div>
+        <p id="id2"></p>
+        <span>비밀번호 확인</span> <br>
+        <div class="text">
+            <input type="password" id="pwdcheck" onblur="pwdCheck()">
+        </div>
+        <p id="id3"></p>
+        <span>이름</span> <br>
+        <div class="text">
+            <input type="text" id="name">
+        </div>
+        <p id="id4"></p>
+        <span>성별</span> <br>
+        <select name="" id="gender" onblur="gendercheck()">
+            <option value="" selected>성별선택</option>
+            <option value="여자">여자</option>
+            <option value="남자">남자</option>
+
+        </select>
+        <p id="genderid"></p>
+
+        <span>생년월일</span> <br>
+        <input type="year" id="year" placeholder="'yyyy'" onblur="year()">
+        <select name="" id="month">
+            <option value="">월</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+        </select>
+        <input type="day" id="day1" placeholder="일" onblur="day()">
+        <p id="id6"></p>
+        <span>이메일</span> <br>
+        <input type="email" id="emailadress" placeholder="' @ '를 포함하여 입력해주세요"onblur="emailcheck()" >
+        <p id="emailid"></p>
+
+        <span>전화번호</span> <br>
+        <div class="text">
+            <input type="text" id="moble" placeholder="' - '를 빼고 입력해주세요" onfocus="focus1()" onblur="phone()">
+        </div>
+        <p id="id5"></p><br>
+        <button id="button1" onclick="submit()" onmouseover="color()" onmouseleave="color1()" value="가입">가입</button>
+        <p id="result"></p>
+    </div>
 </body>
+<script>
+    function createid(chk) {
+        const newid = document.getElementById("newid").value;
+        const id1 = document.getElementById("id1");
+        const exp = /^(?=.*[a-z])(?=.*\d)[a-z\d]{6,12}$/;
+        if (newid.length > 5 && newid.length < 13) {
+            if (newid.match(exp)) {
+                id1.innerHTML = "사용가능한 아이디입니다.";
+                id1.style.color = "green";
+            } else {
+                id1.innerHTML = "6~12 이내의 영문소문자, 숫자를 포함해서 입력해주세요.";
+                id1.style.color = "red";
+                chk = false;
+            }
+        } else {
+            id1.innerHTML = "6~12 이내의 영문소문자, 숫자를 포함해서 입력해주세요.";
+            id1.style.color = "red";
+            chk = false;
+        }
+        return chk;
+    }
+    function pwd(chk) {
+        const pwd = document.getElementById("pwd").value;
+        const id2 = document.getElementById("id2");
+        var msg = document.getElementById("id2");
+        const exp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[-_!#$])[A-Za-z\d-_!#$]{6,12}$/;
+        if (pwd.length > 5 && pwd.length < 13) {
+            if (pwd.match(exp)) {
+                id2.innerHTML = "사용가능한 비밀번호입니다.";
+                id2.style.color = "green";
+                msg.style.display = "block";
+                msg.setAttribute("aria-hidden", false);
+            } else {
+                id2.innerHTML = "6~12 이내의 영문대문자, 영문소문자, 숫자, 특수문자를 포함해서 입력해주세요.";
+                id2.style.color = "red";
+                chk = false;
+            }
+        } else {
+            id2.innerHTML = "6~12 이내의 영문대문자, 영문소문자, 숫자, 특수문자를 포함해서 입력해주세요.";
+            id2.style.color = "red";
+            chk = false;
+        }
+        return chk;
+
+    }
+    function pwdCheck(chk) {
+        const pwd = document.getElementById("pwd").value;
+        const pwdcheck = document.getElementById("pwdcheck").value;
+        const id3 = document.getElementById("id3");
+        if (pwd == pwdcheck) {
+            if(pwdcheck == ""){
+                id3.innerHTML = "비밀번호를 입력하세요.";
+                id3.style.color = "red";
+                chk = false;
+            }else{
+                id3.innerHTML = "비밀번호가 일치합니다.";
+                id3.style.color = "green";
+            }
+        } else{
+            id3.innerHTML = "비밀번호가 일치하지 않습니다."
+            id3.style.color = "red";
+            chk = false;
+        }
+        return chk;
+    }
+    // function username(){
+    //     const name = document.getElementById("name").value;
+    //     const id4 = document.getElementById("id4");
+    //     const exp = /^(?=.*[ㄱ-ㅎ])(?=.*[ㅏ-ㅣ])[ㄱ-ㅎㅏ-ㅣa-zA-Z]{1,20}$/;
+    //     if(!name.match(exp)){
+    //         id4.innerHTML = "이름은 문자로 입력해주세요."
+    //         id4.style.color = "red";
+    //     }else{
+
+    //     }
+    // }
+
+    function gendercheck(chk) {
+        const gender = document.getElementById("gender").value;
+        const genderid = document.getElementById("genderid");
+        var msg = document.getElementById("genderid");
+        if (gender == "") {
+            genderid.innerHTML = "성별을 선택해주세요."
+            genderid.style.color = "red";
+            msg.style.display = "block";
+            msg.setAttribute("aria-hidden", false);
+            chk = false;
+        } else {
+            msg.style.display = "none";
+            msg.setAttribute("aria-hidden", true);
+            
+        }
+        return chk;
+    }
+    function year(chk) {
+        const year = document.getElementById("year").value;
+        const id6 = document.getElementById("id6");
+        const day = document.getElementById("day1").value;
+        var msg = document.getElementById("id6");
+        const exp = /^(?=.*[0-9])[0-9]{4}$/;
+        const exp1 = /^(?=.*[0-9])[0-9]{2}$/;
+        if(year == ""){
+            id6.innerHTML = "태어난 년도 4자리와 일 2자리를 입력해주세요.";
+            id6.style.color = "red";
+            msg.style.display = "block";
+            msg.setAttribute("aria-hidden", false);
+            chk = false;
+        }else if(day == ""){
+            id6.innerHTML = "태어난 일을 입력해주세요.";
+            id6.style.color = "red";
+            msg.style.display = "block";
+            msg.setAttribute("aria-hidden", false);
+            
+        
+        }else if(year.match(exp) && day.match(exp1)){
+            msg.style.display = "none";
+            msg.setAttribute("aria-hidden", true);
+        }
+       
+        return chk;
+    }
+    function day(chk){
+        const year = document.getElementById("year").value;
+        const id6 = document.getElementById("id6");
+        const day = document.getElementById("day1").value;
+        var msg = document.getElementById("id6");
+        const exp = /^(?=.*[0-9])[0-9]{4}$/;
+        const exp1 = /^(?=.*[0-9])[0-9]{2}$/;
+        if(day == ""){
+            id6.innerHTML = "태어난 일 2자리를 입력해주세요";
+            id6.style.color = "red";
+            chk = false;
+            msg.style.display = "block";
+            msg.setAttribute("aria-hidden", false);
+        }else{
+            msg.style.display = "none";
+            msg.setAttribute("aria-hidden", true);
+        }
+        return chk;
+    }
+    // function select1() {
+    //     const email = document.getElementById("email");
+    //     const select1 = document.getElementById("select1").value;
+    //     email.value = select1;
+    // }
+    function emailcheck() {
+        const email = document.getElementById("emailadress").value;
+        const emailid = document.getElementById("emailid");
+        var msg = document.getElementById("emailid");
+        if (email == "") {
+            emailid.innerHTML = "이메일을 입력해주세요.";
+            emailid.style.color = "red";
+
+            msg.style.display = "block";
+            msg.setAttribute("aria-hidden", false);
+            chk = false;
+        } else {
+            msg.style.display = "none";
+            msg.setAttribute("aria-hidden", true);
+        }
+        return chk;
+    }
+    function phone(chk) {
+        const moble = document.getElementById("moble").value;
+        const id5 = document.getElementById("id5");
+        var msg = document.getElementById("id5");
+
+        const exp = /^(?=.*[0-9])[0-9]{11}$/;
+        if (!moble.match(exp)) {
+            id5.innerHTML = "11자리의 숫자를 입력해주세요."
+            id5.style.color = "red";
+
+            msg.style.display = "block";
+
+            msg.setAttribute("aria-hidden", false);
+            chk = false;
+        } else if (moble.match(exp)) {
+            msg.style.display = "none";
+            msg.setAttribute("aria-hidden", true);
+        }
+        return chk;
+    }
+    function color(){
+        var button1 = document.getElementById("button1");
+
+        button1.style.backgroundColor ="white";
+        button1.style.color="black";
+        
+    }
+    function color1(){
+        var button1 = document.getElementById("button1");
+        
+        button1.style.backgroundColor = "black";
+        button1.style.color="white";
+    }
+    function submit(){
+        let result = document.getElementById("result");
+        let chk = true;
+        chk = phone();
+        chk = emailcheck();
+        chk = day();
+        chk = year();
+        chk = gendercheck();
+        chk = createid();
+        chk = pwd();
+        chk = pwdCheck();
+    }
+    
+
+</script>
+
 </html>
