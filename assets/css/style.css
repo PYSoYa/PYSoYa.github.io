@@ -751,7 +751,20 @@ a:hover {
     padding-left: 0rem;
   }
 }
-
+.skill-mf .skill {
+  background-color: #ff7f00;
+  border-radius: 4px;
+  outline-style: solid 1px;
+  width: 60px;
+  text-align: center;
+}
+.skill-mf #skill-1 {
+  color: #000000;
+}
+.skill-mf .skill-html {
+  width: 80px;
+  height: 70px;
+}
 .skill-mf span {
   color: #4e4e4e;
 }
