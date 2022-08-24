@@ -197,7 +197,7 @@
 
         <span>생년월일</span> <br>
         <input type="year" id="year" placeholder="'yyyy'" onblur="year()">
-        <select name="" id="month">
+        <select name="" id="month" onblur="month()">
             <option value="">월</option>
             <option value="1">1</option>
             <option value="2">2</option>
@@ -232,7 +232,7 @@
         const newid = document.getElementById("newid").value;
         const id1 = document.getElementById("id1");
         const exp = /^(?=.*[a-z])(?=.*\d)[a-z\d]{6,12}$/;
-        if (newid.length > 5 && newid.length < 13) {
+        if (newid.length > 5 && newid.length < 17) {
             if (newid.match(exp)) {
                 id1.innerHTML = "사용가능한 아이디입니다.";
                 id1.style.color = "green";
@@ -252,20 +252,20 @@
         const pwd = document.getElementById("pwd").value;
         const id2 = document.getElementById("id2");
         var msg = document.getElementById("id2");
-        const exp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[-_!#$])[A-Za-z\d-_!#$]{6,12}$/;
-        if (pwd.length > 5 && pwd.length < 13) {
+        const exp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[-_!#$])[A-Za-z\d-_!#$]{6,16}$/;
+        if (pwd.length > 5 && pwd.length < 17) {
             if (pwd.match(exp)) {
                 id2.innerHTML = "사용가능한 비밀번호입니다.";
                 id2.style.color = "green";
                 msg.style.display = "block";
                 msg.setAttribute("aria-hidden", false);
             } else {
-                id2.innerHTML = "6~12 이내의 영문대문자, 영문소문자, 숫자, 특수문자를 포함해서 입력해주세요.";
+                id2.innerHTML = "6~16 이내의 영문대문자, 영문소문자, 숫자, 특수문자를 포함해서 입력해주세요.";
                 id2.style.color = "red";
                 chk = false;
             }
         } else {
-            id2.innerHTML = "6~12 이내의 영문대문자, 영문소문자, 숫자, 특수문자를 포함해서 입력해주세요.";
+            id2.innerHTML = "6~16 이내의 영문대문자, 영문소문자, 숫자, 특수문자를 포함해서 입력해주세요.";
             id2.style.color = "red";
             chk = false;
         }
@@ -325,43 +325,54 @@
         const year = document.getElementById("year").value;
         const id6 = document.getElementById("id6");
         const day = document.getElementById("day1").value;
+        const month = document.getElementById("month").value;
         var msg = document.getElementById("id6");
         const exp = /^(?=.*[0-9])[0-9]{4}$/;
         const exp1 = /^(?=.*[0-9])[0-9]{2}$/;
         if(year == ""){
-            id6.innerHTML = "태어난 년도 4자리와 일 2자리를 입력해주세요.";
+            id6.innerHTML = "태어난 년도 4자리를 입력해주세요.";
             id6.style.color = "red";
             msg.style.display = "block";
             msg.setAttribute("aria-hidden", false);
             chk = false;
-        }else if(day == ""){
-            id6.innerHTML = "태어난 일을 입력해주세요.";
-            id6.style.color = "red";
-            msg.style.display = "block";
-            msg.setAttribute("aria-hidden", false);
-            
-        
-        }else if(year.match(exp) && day.match(exp1)){
+        } else if(year.match(exp) && day.match(exp1)){
             msg.style.display = "none";
             msg.setAttribute("aria-hidden", true);
         }
        
         return chk;
     }
+
+    function month(chk) {
+        const year = document.getElementById("year").value;
+        const month = document.getElementById("month").value;
+        const id6 = document.getElementById("id6");
+        if (year != "" && month == "") {
+            id6.innerHTML = "태어난 월을 입력해주세요.";
+            id6.style.color = "red";
+            msg.style.display = "block";
+            msg.setAttribute("aria-hidden", false);
+        } else if (month != "") {
+            msg.style.display = "none";
+            msg.setAttribute("aria-hidden", true);
+        }
+    }
+
     function day(chk){
         const year = document.getElementById("year").value;
         const id6 = document.getElementById("id6");
+        const month = document.getElementById("month").value;
         const day = document.getElementById("day1").value;
         var msg = document.getElementById("id6");
         const exp = /^(?=.*[0-9])[0-9]{4}$/;
         const exp1 = /^(?=.*[0-9])[0-9]{2}$/;
-        if(day == ""){
+        if (year !="" && month != "" && day == "") {
             id6.innerHTML = "태어난 일 2자리를 입력해주세요";
             id6.style.color = "red";
             chk = false;
             msg.style.display = "block";
             msg.setAttribute("aria-hidden", false);
-        }else{
+        } else if (day != "") {
             msg.style.display = "none";
             msg.setAttribute("aria-hidden", true);
         }
