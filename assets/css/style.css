@@ -850,6 +850,31 @@ a:hover {
 /*--------------------------------------------------------------
 # Portfolio
 --------------------------------------------------------------*/
+.signup-container {
+  display: flex;
+}
+.login-container {
+  display: flex;
+}
+.solo-container {
+  display: flex;
+}
+.team-container {
+  display: flex;
+}
+.skill-contents {
+  margin-left: 200px;
+}
+.team-web {
+  font-size: 26px;
+  font-weight: lighter;
+}
+.skill-contents img {
+  width: 540px;
+}
+.project-name {
+  font-size: 26px;
+}
 .work-box {
   margin-bottom: 3rem;
   -webkit-backface-visibility: hidden;
