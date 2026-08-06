@@ -1,362 +1,209 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
-
 <head>
-    <meta charset="utf-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>박윤석 — 풀스택 개발자</title>
+<meta name="description" content="약국 B2B 서비스를 앱·웹·백엔드까지 만들고 운영하는 풀스택 개발자 박윤석입니다.">
+<meta property="og:title" content="박윤석 — 풀스택 개발자">
+<meta property="og:description" content="약국 B2B 서비스를 앱·웹·백엔드까지 만들고 운영합니다.">
+<meta property="og:type" content="profile">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💊</text></svg>">
+<style>
+  :root {
+    --bg: #ffffff;
+    --fg: #16181d;
+    --muted: #6b7280;
+    --line: #e5e7eb;
+    --accent: #2563eb;
+    --card: #f9fafb;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1117;
+      --fg: #e6edf3;
+      --muted: #9198a1;
+      --line: #21262d;
+      --accent: #58a6ff;
+      --card: #161b22;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard",
+                 "Malgun Gothic", system-ui, sans-serif;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 88px 24px 72px;
+  }
+  header { margin-bottom: 48px; }
+  h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin: 0 0 12px;
+  }
+  .tagline {
+    font-size: 1.0625rem;
+    color: var(--muted);
+    margin: 0;
+  }
+  .tagline strong { color: var(--fg); font-weight: 600; }
 
-    <title>포트폴리오</title>
-    <meta content="" name="description">
-    <meta content="" name="keywords">
+  section { margin-bottom: 44px; }
+  h2 {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0 0 16px;
+  }
 
-    <!-- Favicons -->
-    <link href="assets/img/yun-favicon.png" rel="icon">
-    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+  .work { display: grid; gap: 14px; }
+  .item {
+    display: flex;
+    gap: 14px;
+    align-items: baseline;
+    flex-wrap: wrap;
+  }
+  .item .name { font-weight: 600; min-width: 108px; }
+  .item .desc { color: var(--muted); font-size: 0.9375rem; flex: 1; min-width: 200px; }
 
-    <!-- Vendor CSS Files -->
-    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-    <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-    <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+  .stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .tag {
+    font-size: 0.8125rem;
+    padding: 4px 10px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--muted);
+    background: var(--card);
+    white-space: nowrap;
+  }
 
-    <!-- Template Main CSS File -->
-    <link href="assets/css/style.css" rel="stylesheet">
+  .links { display: grid; gap: 10px; }
+  a.link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 18px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: var(--card);
+    color: var(--fg);
+    text-decoration: none;
+    transition: border-color .15s ease, transform .15s ease;
+  }
+  a.link:hover { border-color: var(--accent); transform: translateY(-1px); }
+  a.link .label { font-weight: 600; }
+  a.link .sub { color: var(--muted); font-size: 0.875rem; }
+  a.link .arrow { color: var(--muted); flex-shrink: 0; }
 
-    <!-- =======================================================
-  * Template Name: DevFolio - v4.7.1
-  * Template URL: https://bootstrapmade.com/devfolio-bootstrap-portfolio-html-template/
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
+  footer {
+    margin-top: 56px;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 0.875rem;
+  }
+  footer a { color: var(--muted); }
+
+  @media (max-width: 480px) {
+    .wrap { padding: 56px 20px 48px; }
+    h1 { font-size: 1.625rem; }
+    .item .name { min-width: 0; }
+  }
+</style>
 </head>
-
 <body>
+<div class="wrap">
 
-    <!-- ======= Header ======= -->
-    <header id="header" class="fixed-top">
-        <div class="container d-flex align-items-center justify-content-between">
+  <header>
+    <h1>박윤석</h1>
+    <p class="tagline">
+      약국 대상 <strong>B2B 서비스</strong>를 모바일 앱부터 백엔드·인프라까지 만들고 운영합니다.
+    </p>
+  </header>
 
-            <h1 class="logo"><a href="index.html">YunSeok</a></h1>
-            <!-- Uncomment below if you prefer to use an image logo -->
-            <!-- <a href="index.html" class="logo"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+  <section>
+    <h2>만들고 있는 것</h2>
+    <div class="work">
+      <div class="item">
+        <span class="name">약매니저</span>
+        <span class="desc">약국 관리 플랫폼 · React Native 앱, 운영 백오피스, Spring Boot</span>
+      </div>
+      <div class="item">
+        <span class="name">YMBP</span>
+        <span class="desc">의약품 B2B 도매 커머스 · Spring Boot, Next.js, 운영자 콘솔</span>
+      </div>
+      <div class="item">
+        <span class="name">CountMediQ</span>
+        <span class="desc">글로벌(미국) 서비스 · 웹 대시보드 신규 구축</span>
+      </div>
+    </div>
+  </section>
 
+  <section>
+    <h2>주로 다루는 기술</h2>
+    <div class="stack">
+      <span class="tag">Java</span>
+      <span class="tag">Spring Boot</span>
+      <span class="tag">JPA · QueryDSL</span>
+      <span class="tag">MySQL</span>
+      <span class="tag">Redis</span>
+      <span class="tag">TypeScript</span>
+      <span class="tag">React</span>
+      <span class="tag">Next.js</span>
+      <span class="tag">React Native</span>
+      <span class="tag">Docker</span>
+      <span class="tag">GitHub Actions</span>
+    </div>
+  </section>
 
-            <ul>
-                <!-- <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down"></i></a>
-            <ul>
-              <li><a href="#">Drop Down 1</a></li>
-              <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-right"></i></a>
-                <ul>
-                  <li><a href="#">Deep Drop Down 1</a></li>
-                  <li><a href="#">Deep Drop Down 2</a></li>
-                  <li><a href="#">Deep Drop Down 3</a></li>
-                  <li><a href="#">Deep Drop Down 4</a></li>
-                  <li><a href="#">Deep Drop Down 5</a></li>
-                </ul>
-              </li>
-              <li><a href="#">Drop Down 2</a></li>
-              <li><a href="#">Drop Down 3</a></li>
-              <li><a href="#">Drop Down 4</a></li>
-            </ul>
-          </li>-->
-            </ul>
+  <section>
+    <h2>더 보기</h2>
+    <div class="links">
+      <a class="link" href="https://forested-agenda-356.notion.site/3b4ce1cd5f5e81a0a3e6de1ec68f22ed">
+        <span>
+          <span class="label">포트폴리오</span><br>
+          <span class="sub">문제와 해결 과정, 기술적 판단 근거</span>
+        </span>
+        <span class="arrow">→</span>
+      </a>
+      <a class="link" href="https://forested-agenda-356.notion.site/3b4ce1cd5f5e8177bbbcdab95c46e1a2">
+        <span>
+          <span class="label">이력서</span><br>
+          <span class="sub">경력과 담당 업무 요약</span>
+        </span>
+        <span class="arrow">→</span>
+      </a>
+      <a class="link" href="https://github.com/PYSoYa">
+        <span>
+          <span class="label">GitHub</span><br>
+          <span class="sub">@PYSoYa</span>
+        </span>
+        <span class="arrow">→</span>
+      </a>
+    </div>
+  </section>
 
-        </div>
-    </header><!-- End Header -->
+  <footer>
+    <a href="mailto:qkrwnl01@gmail.com">qkrwnl01@gmail.com</a>
+  </footer>
 
-    <!-- ======= Hero Section ======= -->
-    <div id="hero" class="hero route bg-image" style="background-image: url(assets/img/mu.jpg)">
-        <div class="overlay-itro"></div>
-        <div class="hero-content display-table">
-            <div class="table-cell">
-                <div class="container">
-                    <!--<p class="display-6 color-d">Hello, world!</p>-->
-                    <h1 class="hero-title mb-4">I am a developer</h1>
-                    <p class="hero-subtitle"><span class="typed" data-typed-items="노력, 노배신"></span></p>
-                    <!-- <p class="pt-3"><a class="btn btn-primary btn js-scroll px-4" href="#about" role="button">Learn More</a></p> -->
-                </div>
-            </div>
-        </div>
-    </div><!-- End Hero Section -->
-
-    <main id="main">
-
-        <!-- ======= About Section ======= -->
-        <section id="about" class="about-mf sect-pt4 route">
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="box-shadow-full">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="row">
-                                        <div class="col-sm-6 col-md-5">
-                                            <div class="about-img">
-                                                <img src="assets/img/proFile.jpg" class="img-fluid rounded b-shadow-a"
-                                                    alt="">
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6 col-md-7">
-                                            <div class="about-info">
-                                                <p><span class="title-s">이름: </span> <span>박 윤 석</span></p>
-                                                <p><span class="title-s">직업: </span> <span>개 발 자</span></p>
-                                                <p><span class="title-s">나이: </span> <span>1997. 01. 23</span></p>
-                                                <p><span class="title-s">깃허브: </span> <a
-                                                        href="https://github.com/PYSoYa"><span>PYSOYA</span></a></p>
-                                                <p><span class="title-s">이메일: </span> <span>qkrwnl01@gmail.com</span>
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="skill-mf">
-                                        <p class="title-s">보유 기술</p>
-                                        <span>HTML</span> <span class="pull-right">68%</span>
-                                        <div class="progress">
-                                            <div class="progress-bar" role="progressbar" style="width: 68%;"
-                                                aria-valuenow="3" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                        <span>JSP</span> <span class="pull-right">63%</span>
-                                        <div class="progress">
-                                            <div class="progress-bar" role="progressbar" style="width: 63%;"
-                                                aria-valuenow="3" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                        <span>CSS3</span> <span class="pull-right">40%</span>
-                                        <div class="progress">
-                                            <div class="progress-bar" role="progressbar" style="width: 40%"
-                                                aria-valuenow="2" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                        <span>JAVA</span> <span class="pull-right">67%</span>
-                                        <div class="progress">
-                                            <div class="progress-bar" role="progressbar" style="width: 67%"
-                                                aria-valuenow="4" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                        <span>JAVASCRIPT</span> <span class="pull-right">66%</span>
-                                        <div class="progress">
-                                            <div class="progress-bar" role="progressbar" style="width: 66%"
-                                                aria-valuenow="3" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                        <span>Spring boot, FramWork, Data Jpa</span> <span class="pull-right">70%</span>
-                                        <div class="progress">
-                                            <div class="progress-bar" role="progressbar" style="width: 70%"
-                                                aria-valuenow="3" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="about-me pt-4 pt-md-0">
-                                        <div class="title-box-2">
-                                            <h5 class="title-left">
-                                                About me
-                                            </h5>
-                                        </div>
-                                        <p class="lead">
-                                            App Developer
-                                        </p>
-                                        <!-- <p class="lead">
-                      You
-                    </p>
-                    <p class="lead">
-                      Soon
-                    </p> -->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section><!-- End About Section -->
-
-
-        <!-- ======= Portfolio Section ======= -->
-        <section id="work" class="portfolio-mf sect-pt4 route">
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="title-box text-center">
-                            <h3 class="title-a">
-                                Portfolio
-                            </h3>
-                            <!-- <p class="subtitle-a">
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-              </p> -->
-                            <div class="line-mf"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="team-container">
-                        <div class="col-md-4">
-                            <div class="work-box">
-                                <a href="github.html" data-gallery="portfolioGallery" class="portfolio-lightbox">
-                                    <div class="work-img">
-                                        <img src="assets/img/final.png" alt="" class="img-fluid">
-                                    </div>
-                                </a>
-                                <div class="work-content">
-                                    <div class="row">
-                                        <div class="col-sm-8">
-                                            <h2 class="w-title">웹소설플랫폼</h2>
-                                            <div class="w-more">
-                                                <span class="w-ctegory">파이널 팀 프로젝트</span><br> <span class="w-date">18
-                                                    Auc. 2022</span>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <div class="w-like">
-                                                <a href="github.html"> <span class="bi bi-plus-circle"></span></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="skill-contents">
-                            </br><span class="project-name">프로젝트명: </span>
-                            <span class="team-web">웹소설 플랫폼</span></br></br></br>
-                            <img src="assets/img/사용기술.png">
-                        </div>
-                    </div>
-                    <div class="solo-container">
-                        <div class="col-md-4">
-                            <div class="work-box">
-                                <a href="github-solo.html" data-gallery="portfolioGallery" class="portfolio-lightbox">
-                                    <div class="work-img">
-                                        <img src="assets/img/solo.png" alt="" class="img-fluid">
-                                    </div>
-                                </a>
-                                <div class="work-content">
-                                    <div class="row">
-                                        <div class="col-sm-8">
-                                            <h2 class="w-title">구인구직</h2>
-                                            <div class="w-more">
-                                                <span class="w-ctegory">개인 프로젝트</span><br> <span class="w-date">17 Jun.
-                                                    2022</span>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <div class="w-like">
-                                                <a href="github-solo.html"> <span class="bi bi-plus-circle"></span></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="skill-contents">
-                            </br><span class="project-name">프로젝트명: </span>
-                            <span class="team-web">구인구직</span></br></br></br>
-                            <span class="project-name">사용기술</span></br></br>
-                            <span>JAVA</span></br>
-                            <span>JAVASCRIPT</span></br>
-                            <span>CSS3</span></br>
-                            <span>HTML5</span></br></br>
-                            <span class="team-web">Spiring Freamwork</span>
-                        </div>
-                    </div>
-                    <div class="login-container">
-                        <div class="col-md-4">
-                            <div class="work-box">
-                                <a href="login.html" data-gallery="portfolioGallery" class="portfolio-lightbox">
-                                    <div class="work-img">
-                                        <img src="assets/img/login.png" alt="" class="img-fluid">
-                                    </div>
-                                </a>
-                                <div class="work-content">
-                                    <div class="row">
-                                        <div class="col-sm-8">
-                                            <h2 class="w-title">로그인</h2>
-                                            <div class="w-more">
-                                                <span class="w-ctegory">로그인 페이지</span><br> <span class="w-date">13 May.
-                                                    2022</span>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <div class="w-like">
-                                                <a href="login.html"> <span class="bi bi-plus-circle"></span></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="skill-contents">
-                        </div>
-                    </div>
-                    <div class="signup-container">
-                        <div class="col-md-4">
-                            <div class="work-box">
-                                <a href="signup.html" data-gallery="portfolioGallery" class="portfolio-lightbox">
-                                    <div class="work-img">
-                                        <img src="assets/img/signUp.png" alt="" class="img-fluid">
-                                    </div>
-                                </a>
-                                <div class="work-content">
-                                    <div class="row">
-                                        <div class="col-sm-8">
-                                            <h2 class="w-title">회원가입</h2>
-                                            <div class="w-more">
-                                                <span class="w-ctegory">회원가입 페이지</span><br> <span class="w-date">13 May.
-                                                    2022</span>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-4">
-                                            <div class="w-like">
-                                                <a href="signup.html"> <span class="bi bi-plus-circle"></span></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="skill-contents">
-                        </div>
-                    </div>
-        </section><!-- End Portfolio Section -->
-
-        <!-- ======= Blog Section ======= -->
-
-        <!-- ======= Contact Section ======= -->
-
-    </main><!-- End #main -->
-
-    <!-- ======= Footer ======= -->
-    <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="copyright-box">
-                        <p class="copyright">&copy; Copyright <strong>DevFolio</strong>. All Rights Reserved</p>
-                        <div class="credits">
-                            <!--
-              All the links in the footer should remain intact.
-              You can delete the links only if you purchased the pro version.
-              Licensing information: https://bootstrapmade.com/license/
-              Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/buy/?theme=DevFolio
-            -->
-                            Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer><!-- End  Footer -->
-
-    <div id="preloader"></div>
-    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
-            class="bi bi-arrow-up-short"></i></a>
-
-    <!-- Vendor JS Files -->
-    <script src="assets/vendor/purecounter/purecounter.js"></script>
-    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-    <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-    <script src="assets/vendor/typed.js/typed.min.js"></script>
-    <script src="assets/vendor/php-email-form/validate.js"></script>
-
-    <!-- Template Main JS File -->
-    <script src="assets/js/main.js"></script>
-
+</div>
 </body>
-
 </html>
