@@ -130,7 +130,8 @@ h2 {
   font-family: var(--mono);
   font-size: 0.75rem;
   font-weight: 600;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.06em;
+  word-spacing: -0.2em;
   text-transform: uppercase;
   color: var(--muted);
   margin: 0 0 20px;
@@ -269,17 +270,23 @@ footer {
 
 /* ---------- responsive ---------- */
 @media (max-width: 900px) {
-  .shell { grid-template-columns: minmax(0, 1fr); gap: 0; padding: 0 22px; }
-  .side { position: static; padding: 48px 0 0; min-width: 0; }
+  .shell { grid-template-columns: minmax(0, 1fr); gap: 0; padding: 52px 22px 0; }
+  .side { position: static; padding: 32px 0 0; min-width: 0; }
   .avatar { width: 64px; height: 64px; }
   .toc {
     display: flex;
     gap: 4px;
     overflow-x: auto;
-    padding: 10px 0 0;
-    border-bottom: 1px solid var(--rule);
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    padding: 8px 22px;
+    background: var(--paper);
+    border-bottom: 1px solid var(--rule);
   }
   .toc::-webkit-scrollbar { display: none; }
   .toc a {
@@ -292,7 +299,7 @@ footer {
   .toc a[aria-current="true"] { border-bottom-color: var(--accent); }
   .side-foot { display: none; }
   main { padding: 36px 0 96px; }
-  section { margin-bottom: 64px; scroll-margin-top: 12px; }
+  section { margin-bottom: 64px; scroll-margin-top: 64px; }
 }
 @media (max-width: 560px) {
   body { font-size: 14.5px; }
