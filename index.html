@@ -45,6 +45,16 @@
     padding: 88px 24px 72px;
   }
   header { margin-bottom: 48px; }
+  .avatar {
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center 22%;
+    display: block;
+    margin: 0 0 20px;
+    border: 1px solid var(--line);
+  }
   h1 {
     font-size: 2rem;
     font-weight: 700;
@@ -132,6 +142,7 @@
 <div class="wrap">
 
   <header>
+    <img class="avatar" src="profile.jpg" alt="박윤석 프로필 사진" width="88" height="88">
     <h1>박윤석</h1>
     <p class="tagline">
       약국 대상 <strong>B2B 서비스</strong>를 모바일 앱부터 백엔드·인프라까지 만들고 운영합니다.
