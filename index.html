@@ -17,7 +17,7 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230d6b4e'/><text x='50' y='72' font-size='62' font-weight='700' font-family='ui-monospace,SFMono-Regular,Menlo,monospace' fill='%23ffffff' text-anchor='middle'>P</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <script>
   // 렌더 전에 저장된 테마를 적용해 화면 깜빡임을 막는다
   try {
@@ -33,7 +33,10 @@
   --muted:  #5d6f68;
   --rule:   #ccdad3;
   --accent: #0d6b4e;
-  --sans: "IBM Plex Sans KR", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif;
+  /* 한글 본문은 시스템 폰트 — 웹폰트 307KB를 걷어냈다.
+     페이지의 개성은 등폭(라벨·숫자·프롬프트)이 담당한다 */
+  --sans: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Pretendard",
+          "Noto Sans KR", "Malgun Gothic", system-ui, sans-serif;
   --mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 @media (prefers-color-scheme: dark) {
