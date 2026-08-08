@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    width: 1200px; height: 630px;
+    background: #fff;
+    color: #12211c;
+    font-family: "IBM Plex Sans KR", sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 68px 72px 56px;
+    font-variant-numeric: tabular-nums;
+    position: relative;
+    overflow: hidden;
+  }
+  body::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 7px;
+    background: #0d6b4e;
+  }
+  .top { display: flex; align-items: center; gap: 30px; }
+  .avatar {
+    width: 132px; height: 132px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center 20%;
+    border: 1px solid #ccdad3;
+    flex-shrink: 0;
+  }
+  h1 { font-size: 60px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; }
+  .role {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 19px; font-weight: 500;
+    letter-spacing: 0.06em;
+    color: #0d6b4e;
+    margin-top: 12px;
+  }
+  .lede { font-size: 25px; line-height: 1.55; color: #3c4a45; margin-top: 34px; }
+  .lede b { color: #12211c; font-weight: 600; }
+
+  table { width: 100%; border-collapse: collapse; margin-top: 28px; }
+  td { padding: 13px 0; border-bottom: 1px solid #ccdad3; font-size: 22px; }
+  tr:nth-child(odd) { background: #eef5f1; }
+  td:first-child { padding-left: 14px; }
+  td:last-child { padding-right: 14px; }
+  .num {
+    font-family: "IBM Plex Mono", monospace;
+    text-align: right; white-space: nowrap; font-size: 21px;
+  }
+  .before { color: #7d8c87; text-decoration: line-through; }
+  .after { color: #0d6b4e; font-weight: 600; }
+
+  footer {
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 21px;
+    color: #5d6f68;
+    border-top: 2px solid #12211c;
+    padding-top: 18px;
+  }
+  footer b { color: #12211c; font-weight: 600; }
+</style>
+</head>
+<body>
+
+  <div>
+    <div class="top">
+      <img class="avatar" src="profile.jpg" alt="">
+      <div>
+        <h1>박윤석</h1>
+        <div class="role">FULL-STACK DEVELOPER · 4년차</div>
+      </div>
+    </div>
+
+    <p class="lede">
+      모바일·웹·백엔드·인프라 전반에서 B2B 서비스를 설계·개발·운영합니다.<br>
+      결제·정산·ERP 연동을 담당하며 <b>2개 서비스·9개 저장소를 단독 운영</b>합니다.
+    </p>
+
+    <table>
+      <tr>
+        <td>사업자등록증 OCR 처리시간</td>
+        <td class="num before">524초</td>
+        <td class="num after">0.6~5.8초</td>
+      </tr>
+      <tr>
+        <td>외부 ERP 원장 대조 매칭률</td>
+        <td class="num before">부분 집계</td>
+        <td class="num after">100%</td>
+      </tr>
+      <tr>
+        <td>배포 러너 점유 시간</td>
+        <td class="num before">2.5~3.5분</td>
+        <td class="num after">30~40초</td>
+      </tr>
+    </table>
+  </div>
+
+  <footer>
+    <span><b>pysoya.github.io</b></span>
+    <span>이력서 · 포트폴리오</span>
+  </footer>
+
+</body>
+</html>
