@@ -121,8 +121,8 @@ a { color: inherit; }
 .side-foot a:hover { color: var(--accent); }
 
 /* ---------- main ---------- */
-main { padding: 64px 0 96px; max-width: 660px; }
-section { margin-bottom: 60px; scroll-margin-top: 24px; }
+main { padding: 64px 0 120px; max-width: 660px; }
+section { margin-bottom: 88px; scroll-margin-top: 28px; }
 section:last-of-type { margin-bottom: 0; }
 
 h2 {
@@ -293,8 +293,8 @@ footer {
   }
   .toc a[aria-current="true"] { border-bottom-color: var(--accent); }
   .side-foot { display: none; }
-  main { padding: 36px 0 72px; }
-  section { margin-bottom: 48px; scroll-margin-top: 12px; }
+  main { padding: 36px 0 96px; }
+  section { margin-bottom: 64px; scroll-margin-top: 12px; }
 }
 @media (max-width: 560px) {
   body { font-size: 14.5px; }
@@ -592,20 +592,57 @@ footer {
     return el;
   }).filter(Boolean);
 
-  if (!('IntersectionObserver' in window) || !targets.length) return;
+  if (!targets.length) return;
 
-  var visible = new Set();
-  var obs = new IntersectionObserver(function (entries) {
-    entries.forEach(function (e) {
-      if (e.isIntersecting) visible.add(e.target.id);
-      else visible.delete(e.target.id);
-    });
-    var first = targets.find(function (t) { return visible.has(t.id); });
+  var toc = document.querySelector('.toc');
+  var active = null;
+  var ticking = false;
+
+  function apply(el) {
+    if (!el || el === active) return;
+    active = el;
     links.forEach(function (a) { a.removeAttribute('aria-current'); });
-    if (first && map[first.id]) map[first.id].setAttribute('aria-current', 'true');
-  }, { rootMargin: '-10% 0px -70% 0px', threshold: 0 });
+    var link = map[el.id];
+    if (!link) return;
+    link.setAttribute('aria-current', 'true');
 
-  targets.forEach(function (t) { obs.observe(t); });
+    // 모바일 가로 탭에서는 활성 항목이 보이도록 스크롤
+    if (toc && toc.scrollWidth > toc.clientWidth) {
+      var t = toc.getBoundingClientRect();
+      var l = link.getBoundingClientRect();
+      if (l.left < t.left || l.right > t.right) {
+        toc.scrollTo({ left: link.offsetLeft - toc.clientWidth / 2 + link.offsetWidth / 2, behavior: 'smooth' });
+      }
+    }
+  }
+
+  function update() {
+    ticking = false;
+    var line = window.innerHeight * 0.28;   // 뷰포트 상단에서 28% 지점을 기준선으로
+    var doc = document.documentElement;
+
+    // 페이지 최하단이면 무조건 마지막 섹션 — 짧은 섹션이 기준선에 못 닿는 문제 보정
+    if (window.innerHeight + window.scrollY >= doc.scrollHeight - 4) {
+      apply(targets[targets.length - 1]);
+      return;
+    }
+
+    var current = targets[0];
+    for (var i = 0; i < targets.length; i++) {
+      if (targets[i].getBoundingClientRect().top <= line) current = targets[i];
+    }
+    apply(current);
+  }
+
+  function onScroll() {
+    if (ticking) return;
+    ticking = true;
+    window.requestAnimationFrame(update);
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll, { passive: true });
+  update();
 })();
 </script>
 
