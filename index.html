@@ -471,6 +471,7 @@ footer {
       <a href="#about">소개</a>
       <a href="#numbers">성과</a>
       <a href="#work">경력</a>
+      <a href="#side">개인 프로젝트</a>
       <a href="#stack">기술</a>
       <a href="#how">일하는 방식</a>
       <a href="#edu">학력</a>
@@ -668,6 +669,113 @@ footer {
               구독 과금 모델이라 요금제와 접근 권한이 제품 구조의 일부입니다.
               Supabase 인증 기반 보호 라우트에 구글 로그인과 전화번호 OTP를 병행하고, 구독 등급(Pro+) 미달 사용자는 업그레이드 경로로 보냈습니다.
               기록 검색·페이지네이션, PDF 보고서·CSV 내보내기, 다국어를 구현하고 조회 인덱스와 초기 렌더를 개선했습니다.
+            </span>
+          </li>
+        </ul>
+      </article>
+    </section>
+
+    <section id="side">
+      <h2>개인 프로젝트</h2>
+
+      <p class="job-sub" style="margin-bottom:28px">
+        회사 업무와 별개로, 관심 있는 문제를 끝까지 만들어 본 것들입니다. 둘 다 공개 저장소입니다.
+      </p>
+
+      <article class="job">
+        <div class="job-head">
+          <h3>MutantHunter — 증명된 테스트만 제안하는 PR 봇</h3>
+          <span class="period">2026</span>
+        </div>
+        <p class="job-sub">TypeScript · GitHub Action · 자체 테스트 348개</p>
+
+        <div class="links" style="margin-bottom:18px">
+          <a href="https://pysoya.github.io/mutant-hunter/">소개</a>
+          <a href="https://pysoya.github.io/mutant-hunter/dashboard.html">측정 대시보드</a>
+          <a href="https://github.com/PYSoYa/mutant-hunter">저장소</a>
+        </div>
+
+        <ul class="items">
+          <li>
+            <b>문제를 바꿨습니다</b> — “이 diff의 테스트를 써줘”는 정답이 없어 검증할 수 없습니다.
+            대신 코드를 일부러 망가뜨려 살아남는 지점을 찾고, “이 변형을 잡아내는 테스트를 써줘”로 바꿨습니다.
+            <span class="why">
+              커버리지는 그 줄이 실행됐는지만 봅니다. 틀렸을 때 누가 알아채는지는 묻지 않습니다.
+              변형을 주입하면 그 질문에 답할 수 있고, 답이 정해져 있으니 생성된 테스트를 실행으로 채점할 수 있습니다.
+            </span>
+          </li>
+          <li>
+            <b>증명하지 못한 것은 제안하지 않습니다</b> — 5개 게이트 중 핵심은 “망가뜨린 코드에서 실패하는가”입니다.
+            <span class="metric">157건 폐기 / 그중 53건은 통과하지만 결함을 못 잡던 테스트</span>
+            <span class="why">
+              현재 코드에서 멀쩡히 통과하는 그럴듯한 테스트는 얼마든지 만들어집니다.
+              그런 테스트는 커버리지를 올리고 코드 리뷰도 통과하지만 아무것도 지켜주지 않습니다.
+              실제로 변형을 적용해 돌려봐야만 갈립니다.
+            </span>
+          </li>
+          <li>
+            <b>측정 장치를 먼저 만들었습니다</b> — 같은 조건을 반복해 잡음 폭을 재고,
+            그 기준으로 앞서 내린 A/B 판정 두 개를 스스로 철회했습니다.
+            <span class="why">
+              채택률이 25% → 29%로 올랐을 때 개선이라고 적었지만, 아무것도 바꾸지 않은 반복 실행에서도
+              같은 폭으로 흔들린다는 것을 확인했습니다. 대시보드가 채택률과 잡음 폭을 함께 그리는 이유입니다.
+              프롬프트 튜닝은 세 번 시도해 전부 효과를 입증하지 못했고, 그 사실도 그대로 남겨뒀습니다.
+            </span>
+          </li>
+          <li>
+            <b>대상 선택이 3배 차이를 만듭니다</b> — 외부 오픈소스 3곳에 돌린 결과,
+            잘 테스트된 저장소에서는 제안이 0건이고 테스트가 없는 코드에서는 7건 중 6건이 채택됐습니다.
+            <span class="why">
+              잘 관리된 코드에 남은 변형은 어려운 잔여물뿐이라 제안할 것이 없습니다.
+              그때 침묵하는 것이 올바른 동작입니다 — 증명 못 한 것을 내밀면 메인테이너의 시간을 뺏고 신뢰를 한 번에 잃습니다.
+              외부 저장소에 처음 돌리면서 자체 환경에 가려져 있던 버그 3건도 함께 드러났습니다.
+            </span>
+          </li>
+        </ul>
+      </article>
+
+      <article class="job">
+        <div class="job-head">
+          <h3>agent-trace-viewer — 코딩 에이전트 트레이스 뷰어</h3>
+          <span class="period">2026</span>
+        </div>
+        <p class="job-sub">Next.js · TypeScript · 로컬 실행 도구</p>
+
+        <div class="links" style="margin-bottom:18px">
+          <a href="https://pysoya.github.io/agent-trace-viewer/">소개</a>
+          <a href="https://github.com/PYSoYa/agent-trace-viewer">저장소</a>
+        </div>
+
+        <ul class="items">
+          <li>
+            <b>이미 있는 기록을 읽습니다</b> — Claude Code와 Codex는 모든 세션을 디스크에 남기지만 읽을 방법이 없습니다.
+            토큰·비용·도구 호출과 그 결과로 만들어진 PR·파일까지 보여줍니다.
+            <span class="why">
+              에이전트에 계측을 추가하지 않습니다. 남은 로그만 파싱하므로 대상 도구를 건드릴 필요가 없고,
+              로그가 외부로 나가지도 않습니다.
+            </span>
+          </li>
+          <li>
+            <b>숫자가 무엇인지 명시합니다</b> — 비용은 API 정가 환산이지 청구액이 아니라고 화면에 적습니다.
+            <span class="why">
+              로그에는 토큰 수만 있고 과금 정보가 없습니다. 종량제 키였는지 정액 구독이었는지 로그는 모릅니다.
+              “이 토큰이 공개 요율이었다면 얼마였을까”는 세션을 비교할 때 맞는 질문이지만, 청구서와는 다릅니다.
+              캐시 배수를 반영해 프롬프트 캐싱이 실제로 아낀 양도 숫자에 들어갑니다.
+            </span>
+          </li>
+          <li>
+            <b>임계값은 재서 정했습니다</b> — “활동 시간”은 벽시계 시간에서 유휴를 뺀 값이고, 기준은 5분입니다.
+            <span class="why">
+              사흘 뒤 이어붙인 세션은 429시간에 걸쳐 있지만 실제 작업은 3시간쯤입니다.
+              5분과 15분 사이에서 총합이 거의 움직이지 않아, 짧은 공백과 진짜 유휴가 그 지점에서 깨끗하게 갈립니다.
+            </span>
+          </li>
+          <li>
+            <b>자격증명은 넘기지 않습니다</b> — Docker 실행 시 로그는 읽기 전용으로 마운트하고,
+            <code>~/.codex</code>는 통째로 붙이지 않습니다.
+            <span class="why">
+              그 디렉터리에 <code>auth.json</code>이 있습니다. 트레이스를 읽자고 컨테이너에 자격증명을 줄 이유는 없어,
+              세션 디렉터리와 이름 색인만 따로 마운트합니다.
             </span>
           </li>
         </ul>
