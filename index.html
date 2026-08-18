@@ -307,6 +307,15 @@ p:last-child { margin-bottom: 0; }
   white-space: nowrap;
 }
 .job-sub { font-size: 0.875rem; color: var(--muted); margin: 0 0 16px; }
+.job-sub + .job-sub { margin-top: -12px; }
+.stack {
+  font-family: var(--mono);
+  font-size: 0.78125rem;
+  line-height: 1.7;
+  color: var(--muted);
+  margin: 0 0 6px;
+  word-break: keep-all;
+}
 
 .items { list-style: none; margin: 0; padding: 0; }
 .items > li { margin-bottom: 16px; }
@@ -327,6 +336,34 @@ p:last-child { margin-bottom: 0; }
   color: var(--accent);
   white-space: nowrap;
 }
+
+/* 항목 접기 — 제목과 지표는 늘 보이고, 배경 설명만 펼친다 */
+.items > li > details > summary {
+  display: block;
+  position: relative;
+  padding-left: 19px;
+  cursor: pointer;
+  list-style: none;
+}
+.items > li > details > summary::-webkit-details-marker { display: none; }
+.items > li > details > summary::before {
+  content: "+";
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-family: var(--mono);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--muted);
+  transition: color 0.15s ease;
+}
+.items > li > details[open] > summary::before { content: "\2212"; }
+.items > li > details > summary:hover::before { color: var(--accent); }
+.items > li > details > summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+.items > li > details > .why { margin-left: 19px; }
 .more {
   margin-top: 18px;
   padding: 12px 14px;
@@ -452,6 +489,9 @@ footer {
   main { padding: 0; max-width: none; }
   section { page-break-inside: avoid; margin-bottom: 28px; }
   .job { page-break-inside: avoid; }
+  .items > li > details > summary { padding-left: 0; }
+  .items > li > details > summary::before { display: none; }
+  .items > li > details > .why { margin-left: 0; }
   a { text-decoration: none; }
 }
 </style>
@@ -563,48 +603,71 @@ footer {
           <h3>YMBP — 의약품 B2B 도매 커머스</h3>
           <span class="period">2026.07 –</span>
         </div>
+        <p class="stack">Java 21 · Spring Boot 3.5 · JPA/QueryDSL · MySQL · MSSQL · Redis · Meilisearch ·
+          Next.js 15 (App Router) · React 19 · TypeScript · Tailwind · Turborepo ·
+          Python (PaddleOCR · FastAPI) · Docker · GitHub Actions</p>
         <p class="job-sub">백엔드 1 + 프론트엔드 4 + 자동화 3, 단독 운영</p>
 
         <ul class="items">
           <li>
-            <b>결제·수금 체계 설계·구현</b> — 외상 거래를 카드 기반으로 전환. 카드 미등록 시 주문을 막는 게이트와 월말 수금 구조를 확정했습니다.
-            <span class="why">
-              PG가 빌링키도 0원 승인도 지원하지 않아, 1만원을 승인하고 즉시 전액 취소하는 방식으로 카드 유효성을 검증했습니다.
-              주문 차단은 잘못 켜지면 전 회원이 주문을 못 하므로, 게이트를 DB 설정값으로 두어 재배포 없이 전환하고 설정 조회 실패 시 열리도록 했습니다.
-            </span>
+            <details>
+              <summary>
+                <b>결제·수금 체계 설계·구현</b> — 외상 거래를 카드 기반으로 전환. 카드 미등록 시 주문을 막는 게이트와 월말 수금 구조를 확정했습니다.
+              </summary>
+              <span class="why">
+                PG가 빌링키도 0원 승인도 지원하지 않아, 1만원을 승인하고 즉시 전액 취소하는 방식으로 카드 유효성을 검증했습니다.
+                주문 차단은 잘못 켜지면 전 회원이 주문을 못 하므로, 게이트를 DB 설정값으로 두어 재배포 없이 전환하고 설정 조회 실패 시 열리도록 했습니다.
+              </span>
+            </details>
           </li>
           <li>
-            <b>사업자등록증 OCR 자동입력</b> — 가입 시 수기 입력하던 등록증을 자동으로 채웁니다. <span class="metric">524초 → 0.6~5.8초</span>
-            <span class="why">
-              CPU 추론이 건당 524초로 사용이 불가능해, GPU 추론과 상주 워커로 요청마다 모델을 다시 올리던 구조를 없앴습니다.
-              OCR 서버는 사내망, 서비스는 클라우드에 있어 네트워크가 닿지 않았는데, 등록증은 개인정보라 TLS가 필수인 반면 고정 IP·인증서 발급에 제약이 있었습니다.
-              공인망을 여는 대신 SSH 역터널을 택해 인바운드 개방·TLS·유동 IP를 한 번에 피했고, 프로세스를 강제 종료해 15초 내 자동 복구를 확인했습니다.
-              OCR이 실패하거나 꺼져 있어도 직접 입력으로 넘어가 가입 자체는 막히지 않습니다.
-            </span>
+            <details>
+              <summary>
+                <b>사업자등록증 OCR 자동입력</b> — 가입 시 수기 입력하던 등록증을 자동으로 채웁니다. <span class="metric">524초 → 0.6~5.8초</span>
+              </summary>
+              <span class="why">
+                CPU 추론이 건당 524초로 사용이 불가능해, GPU 추론과 상주 워커로 요청마다 모델을 다시 올리던 구조를 없앴습니다.
+                OCR 서버는 사내망, 서비스는 클라우드에 있어 네트워크가 닿지 않았는데, 등록증은 개인정보라 TLS가 필수인 반면 고정 IP·인증서 발급에 제약이 있었습니다.
+                공인망을 여는 대신 SSH 역터널을 택해 인바운드 개방·TLS·유동 IP를 한 번에 피했고, 프로세스를 강제 종료해 15초 내 자동 복구를 확인했습니다.
+                OCR이 실패하거나 꺼져 있어도 직접 입력으로 넘어가 가입 자체는 막히지 않습니다.
+              </span>
+            </details>
           </li>
           <li>
-            <b>외부 유통 ERP 원장 기준 마진 집계 배치</b> — 외부 ERP의 매출 원장과 자사 상품을 대조해 마진을 산출합니다. <span class="metric">전체 기간 매칭률 100%</span>
-            <span class="why">
-              초기 전제였던 품목코드 조인이 실제로는 무의미하다는 것을 데이터로 확인하고(코드 보유 건이 소수) 품목명과 규격의 복합 키로 바꿨습니다.
-              마진율 대신 분자와 분모를 저장해 재집계 때 평균의 평균으로 값이 왜곡되는 문제를 없앴고,
-              정답 대조군을 만들어 채점하는 방식으로 오매칭을 걸러냈습니다.
-              이 과정에서 <code>@Transactional</code> self-invocation으로 재집계분이 통째로 유실되던 결함을 찾아 고쳤습니다 — 최초 실행은 INSERT라 정상으로 보이고 재실행에서만 드러나는 종류였습니다.
-            </span>
+            <details>
+              <summary>
+                <b>외부 유통 ERP 원장 기준 마진 집계 배치</b> — 외부 ERP의 매출 원장과 자사 상품을 대조해 마진을 산출합니다. <span class="metric">전체 기간 매칭률 100%</span>
+              </summary>
+              <span class="why">
+                초기 전제였던 품목코드 조인이 실제로는 무의미하다는 것을 데이터로 확인하고(코드 보유 건이 소수) 품목명과 규격의 복합 키로 바꿨습니다.
+                마진율 대신 분자와 분모를 저장해 재집계 때 평균의 평균으로 값이 왜곡되는 문제를 없앴고,
+                정답 대조군을 만들어 채점하는 방식으로 오매칭을 걸러냈습니다.
+                이 과정에서 <code>@Transactional</code> self-invocation으로 재집계분이 통째로 유실되던 결함을 찾아 고쳤습니다 — 최초 실행은 INSERT라 정상으로 보이고 재실행에서만 드러나는 종류였습니다.
+              </span>
+            </details>
           </li>
           <li>
-            <b>운영 보안 문제 해결</b> — 로그인할 때 사용자 ID와 이메일이 외부로 나가고 있던 것을 찾아 차단했습니다.
-            <span class="why">
-              에러 트래킹 도구를 점검하다 퇴사자 개인 계정으로 4개월간 운영 에러가 수집되고 있었고,
-              그와 별개로 레이아웃에 남아 있던 서드파티 로깅 스크립트가 개인정보를 전송하고 있었습니다.
-              자사 계정으로 옮기면서 전송 전 스크럽·헤더/쿠키/본문 미수집·세션 리플레이 마스킹을 적용하고, 스크립트를 제거한 뒤 운영 페이지에서 전송 0건을 확인했습니다.
-              그 밖에 무인증으로 열려 있던 관리 API를 차단하고(외부 200 → 403 실측), 타인 게시글이 조회되던 취약점을 고쳤습니다.
-            </span>
+            <details>
+              <summary>
+                <b>운영 보안 문제 해결</b> — 로그인할 때 사용자 ID와 이메일이 외부로 나가고 있던 것을 찾아 차단했습니다.
+              </summary>
+              <span class="why">
+                에러 트래킹 도구를 점검하다 퇴사자 개인 계정으로 4개월간 운영 에러가 수집되고 있었고,
+                그와 별개로 레이아웃에 남아 있던 서드파티 로깅 스크립트가 개인정보를 전송하고 있었습니다.
+                자사 계정으로 옮기면서 전송 전 스크럽·헤더/쿠키/본문 미수집·세션 리플레이 마스킹을 적용하고, 스크립트를 제거한 뒤 운영 페이지에서 전송 0건을 확인했습니다.
+                그 밖에 무인증으로 열려 있던 관리 API를 차단하고(외부 200 → 403 실측), 타인 게시글이 조회되던 취약점을 고쳤습니다.
+              </span>
+            </details>
           </li>
           <li>
-            <b>배포 파이프라인 개선</b> — 프론트엔드 3종의 빌드를 별도 러너로 분리하고 산출물만 전달하도록 바꿨습니다. <span class="metric">2.5~3.5분 → 30~40초</span>
-            <span class="why">
-              self-hosted runner 한 대를 여러 저장소가 공유해 배포가 직렬로 밀리던 문제였습니다.
-            </span>
+            <details>
+              <summary>
+                <b>배포 파이프라인 개선</b> — 프론트엔드 3종의 빌드를 별도 러너로 분리하고 산출물만 전달하도록 바꿨습니다. <span class="metric">2.5~3.5분 → 30~40초</span>
+              </summary>
+              <span class="why">
+                self-hosted runner 한 대를 여러 저장소가 공유해 배포가 직렬로 밀리던 문제였습니다.
+              </span>
+            </details>
           </li>
         </ul>
 
@@ -619,34 +682,53 @@ footer {
           <h3>약매니저 — 약국 관리 플랫폼</h3>
           <span class="period">2023.01 –</span>
         </div>
+        <p class="stack">Java 17 · Spring Boot 3.2 · JPA/QueryDSL · MySQL · MongoDB · Redis · Meilisearch · WebSocket ·
+          React Native 0.78 (bare) · React 18/19 · TypeScript · Redux Toolkit · Zustand · Vision Camera ·
+          CodePush · Firebase(FCM) · Amplitude · NCP · Docker · GitHub Actions</p>
         <p class="job-sub">앱·웹·백엔드 3개 파트 담당, 현재 단독 운영</p>
 
         <ul class="items">
           <li>
-            <b>모바일 앱</b> (React Native) — 카메라로 알약을 세어 재고에 등록하는 <b>약 계수기</b>가 핵심 기능입니다.
-            <span class="why">
-              약국에서 실제로 쓰이는 업무 도구라 카메라·프린터·바코드가 엮인 기능이 많았습니다.
-              온디바이스 모델 로드가 실패하는 단말을 위해 대체 경로를 두고, 촬영 화면을 오가며 카메라 리소스가 새던 문제를 수명 관리로 정리했습니다.
-              라벨 프린터(Nemonic SDK), 바코드·QR 재고 등록, 마약류 점검부도 함께 담당했습니다.
-            </span>
+            <details>
+              <summary>
+                <b>모바일 앱</b> (React Native) — 카메라로 알약을 세어 재고에 등록하는 <b>약 계수기</b>가 핵심 기능입니다.
+              </summary>
+              <span class="why">
+                약국에서 실제로 쓰이는 업무 도구라 카메라·프린터·바코드가 엮인 기능이 많았습니다.
+                온디바이스 모델 로드가 실패하는 단말을 위해 대체 경로를 두고, 촬영 화면을 오가며 카메라 리소스가 새던 문제를 수명 관리로 정리했습니다.
+                라벨 프린터(Nemonic SDK), 바코드·QR 재고 등록, 마약류 점검부도 함께 담당했습니다.
+              </span>
+            </details>
           </li>
           <li>
-            <b>약사·약국 인증 플로우</b> — 인증 수단 선택, 약국명 검색, 직접 입력, 면허증 촬영 인증.
-            <span class="why">
-              화면마다 제각각이던 진입점을 인증 상태 기준으로 통일하고, 인증 대상이 아닌 병·의원 근무자는 문의 채널로 분기시켰습니다.
-            </span>
+            <details>
+              <summary>
+                <b>약사·약국 인증 플로우</b> — 인증 수단 선택, 약국명 검색, 직접 입력, 면허증 촬영 인증.
+              </summary>
+              <span class="why">
+                화면마다 제각각이던 진입점을 인증 상태 기준으로 통일하고, 인증 대상이 아닌 병·의원 근무자는 문의 채널로 분기시켰습니다.
+              </span>
+            </details>
           </li>
           <li>
-            <b>Amplitude 이벤트 트래킹 체계 전면 구축</b> — 페이지·버튼 단위 이벤트를 설계하고 사용자 속성을 연동했습니다.
-            <span class="why">
-              지표 없이 추측으로 하던 기능 판단을 데이터 기반으로 옮기는 것이 목적이었습니다.
-            </span>
+            <details>
+              <summary>
+                <b>Amplitude 이벤트 트래킹 체계 전면 구축</b> — 페이지·버튼 단위 이벤트를 설계하고 사용자 속성을 연동했습니다.
+              </summary>
+              <span class="why">
+                지표 없이 추측으로 하던 기능 판단을 데이터 기반으로 옮기는 것이 목적이었습니다.
+              </span>
+            </details>
           </li>
           <li>
-            <b>운영 백오피스</b> (React) — 운영 화면 전반을 구축했습니다. 운영 지표 대시보드를 만들고, 앱 무선배포(CodePush)를 어드민에서 직접 제어하도록 연동했습니다.
-            <span class="why">
-              배포할 때마다 개발자가 붙지 않아도 되게 하는 것이 목표였습니다. self-hosted runner 전환, pm2 상태 체크 등 배포 자동화도 함께 정리했습니다.
-            </span>
+            <details>
+              <summary>
+                <b>운영 백오피스</b> (React) — 운영 화면 전반을 구축했습니다. 운영 지표 대시보드를 만들고, 앱 무선배포(CodePush)를 어드민에서 직접 제어하도록 연동했습니다.
+              </summary>
+              <span class="why">
+                배포할 때마다 개발자가 붙지 않아도 되게 하는 것이 목표였습니다. self-hosted runner 전환, pm2 상태 체크 등 배포 자동화도 함께 정리했습니다.
+              </span>
+            </details>
           </li>
         </ul>
 
@@ -660,16 +742,22 @@ footer {
         <div class="job-head">
           <h3>CountMediQ — 글로벌(미국) 서비스</h3>
         </div>
+        <p class="stack">Next.js 16 (App Router) · React 19 · TypeScript · Supabase · TanStack Query · Firebase ·
+          React Native 0.78 · Drizzle ORM (op-sqlite) · react-native-iap · i18n</p>
         <p class="job-sub">웹 대시보드 신규 구축 · 모바일 앱</p>
 
         <ul class="items">
           <li>
-            <b>웹 대시보드를 0→1로 구축</b> (Next.js App Router · TypeScript) — 앱에서 모은 계수 기록을 데스크톱에서 조회하고 보고서로 뽑습니다.
-            <span class="why">
-              구독 과금 모델이라 요금제와 접근 권한이 제품 구조의 일부입니다.
-              Supabase 인증 기반 보호 라우트에 구글 로그인과 전화번호 OTP를 병행하고, 구독 등급(Pro+) 미달 사용자는 업그레이드 경로로 보냈습니다.
-              기록 검색·페이지네이션, PDF 보고서·CSV 내보내기, 다국어를 구현하고 조회 인덱스와 초기 렌더를 개선했습니다.
-            </span>
+            <details>
+              <summary>
+                <b>웹 대시보드를 0→1로 구축</b> (Next.js App Router · TypeScript) — 앱에서 모은 계수 기록을 데스크톱에서 조회하고 보고서로 뽑습니다.
+              </summary>
+              <span class="why">
+                구독 과금 모델이라 요금제와 접근 권한이 제품 구조의 일부입니다.
+                Supabase 인증 기반 보호 라우트에 구글 로그인과 전화번호 OTP를 병행하고, 구독 등급(Pro+) 미달 사용자는 업그레이드 경로로 보냈습니다.
+                기록 검색·페이지네이션, PDF 보고서·CSV 내보내기, 다국어를 구현하고 조회 인덱스와 초기 렌더를 개선했습니다.
+              </span>
+            </details>
           </li>
         </ul>
       </article>
@@ -687,7 +775,9 @@ footer {
           <h3>jario — 창업할 자리의 경쟁 밀도를 세는 지도</h3>
           <span class="period">2026</span>
         </div>
-        <p class="job-sub">Next.js 16 · PostgreSQL/PostGIS · Supabase · Vercel · 자체 테스트 68개</p>
+        <p class="stack">Next.js 16 (App Router) · React 19 · TypeScript · PostgreSQL/PostGIS · Supabase ·
+          Zod · Tailwind 4 · Docker Compose · Vercel</p>
+        <p class="job-sub">자체 테스트 68개 (CI에서 PostGIS 컨테이너 기동)</p>
 
         <div class="links" style="margin-bottom:18px">
           <a href="https://jario-pysoya1.vercel.app">서비스</a>
@@ -696,43 +786,59 @@ footer {
 
                         <ul class="items">
           <li>
-            <b>데이터를 먼저 의심합니다</b> &mdash; 업소의 <b>85%가 다른 업소와 좌표가 완전히 같습니다</b>(건물 단위 지오코딩,
-            한 지점 최대 1,040곳). 마커 하나가 업소 하나가 아니라, 누르면 그 자리에 뭐가 있는지부터 보여줍니다.
-            <span class="metric">회전율은 업소번호로 세면 30% 부풀려집니다 &mdash; 사라진 14,823곳 중 3,469곳은 번호만 새로 발급됨</span>
-            <span class="why">
-              원본에 개업일도 폐업일도 없어 분기 스냅샷 두 장을 대조했습니다. 번호가 아니라 (상호명, 좌표)로 한 번 더 걸렀고,
-              같은 계산을 파이썬과 SQL로 각각 해 일치를 확인했습니다. 보정 후에도 이전·상호변경이 섞여 있어
-              화면에는 &ldquo;폐업&rdquo;이 아니라 &ldquo;사라짐&rdquo;으로 적습니다.
-            </span>
+            <details>
+              <summary>
+                <b>데이터를 먼저 의심합니다</b> &mdash; 업소의 <b>85%가 다른 업소와 좌표가 완전히 같습니다</b>(건물 단위 지오코딩,
+                한 지점 최대 1,040곳). 마커 하나가 업소 하나가 아니라, 누르면 그 자리에 뭐가 있는지부터 보여줍니다.
+                <span class="metric">회전율은 업소번호로 세면 30% 부풀려집니다 &mdash; 사라진 14,823곳 중 3,469곳은 번호만 새로 발급됨</span>
+              </summary>
+              <span class="why">
+                원본에 개업일도 폐업일도 없어 분기 스냅샷 두 장을 대조했습니다. 번호가 아니라 (상호명, 좌표)로 한 번 더 걸렀고,
+                같은 계산을 파이썬과 SQL로 각각 해 일치를 확인했습니다. 보정 후에도 이전·상호변경이 섞여 있어
+                화면에는 &ldquo;폐업&rdquo;이 아니라 &ldquo;사라짐&rdquo;으로 적습니다.
+              </span>
+            </details>
           </li>
           <li>
-            <b>좌표가 없는 데이터를 지도에 올렸습니다</b> &mdash; 공실률·임대료 조사는 상권을 이름으로만 주고,
-            구획도는 <b>JPG 이미지</b>라 경계를 쓸 수 없었습니다.
-            <span class="metric">상권 68곳에 좌표를 붙이며 13곳이 동명의 랜드마크로 갔습니다</span>
-            <span class="why">
-              지도 API의 첫 결과를 쓰면 신촌/이대가 안산자락길, 종로가 경복궁이 됩니다 &mdash; 주변 업소가 0~7곳인 산과 궁궐입니다.
-              <b>우리 데이터의 업소 밀도로 검증해</b> 걸러냈습니다. 경계를 모르므로 &ldquo;이 자리의 공실률&rdquo;이라 쓰지 않고,
-              가장 가까운 상권과 거리를 함께 적어 3km를 넘으면 아무것도 보여주지 않습니다.
-            </span>
+            <details>
+              <summary>
+                <b>좌표가 없는 데이터를 지도에 올렸습니다</b> &mdash; 공실률·임대료 조사는 상권을 이름으로만 주고,
+                구획도는 <b>JPG 이미지</b>라 경계를 쓸 수 없었습니다.
+                <span class="metric">상권 68곳에 좌표를 붙이며 13곳이 동명의 랜드마크로 갔습니다</span>
+              </summary>
+              <span class="why">
+                지도 API의 첫 결과를 쓰면 신촌/이대가 안산자락길, 종로가 경복궁이 됩니다 &mdash; 주변 업소가 0~7곳인 산과 궁궐입니다.
+                <b>우리 데이터의 업소 밀도로 검증해</b> 걸러냈습니다. 경계를 모르므로 &ldquo;이 자리의 공실률&rdquo;이라 쓰지 않고,
+                가장 가까운 상권과 거리를 함께 적어 3km를 넘으면 아무것도 보여주지 않습니다.
+              </span>
+            </details>
           </li>
           <li>
-            <b>느린 원인은 하나가 아니었습니다</b> &mdash; 서울을 더하자 동네 분석이 68초가 됐습니다.
-            EXPLAIN ANALYZE로 네 몫을 갈라 각각 다르게 고쳤습니다.
-            <span class="metric">68s → 0.18~0.22s · 화면이 뜨는 시간 1,752ms → 248ms</span>
-            <span class="why">
-              인덱스를 못 타는 접두어 조건, 남아 있던 힙 접근, 매 요청마다 69만 행을 훑던 집계, 그리고
-              DB 쿼리는 289ms인데 응답이 1.9초였던 것 &mdash; 서버 리전이 DB에서 멀었습니다.
-              마지막 몫은 쿼리를 고쳐도 줄지 않아, 재보지 않았다면 인덱스만 붙들고 있었을 겁니다.
-            </span>
+            <details>
+              <summary>
+                <b>느린 원인은 하나가 아니었습니다</b> &mdash; 서울을 더하자 동네 분석이 68초가 됐습니다.
+                EXPLAIN ANALYZE로 네 몫을 갈라 각각 다르게 고쳤습니다.
+                <span class="metric">68s → 0.18~0.22s · 화면이 뜨는 시간 1,752ms → 248ms</span>
+              </summary>
+              <span class="why">
+                인덱스를 못 타는 접두어 조건, 남아 있던 힙 접근, 매 요청마다 69만 행을 훑던 집계, 그리고
+                DB 쿼리는 289ms인데 응답이 1.9초였던 것 &mdash; 서버 리전이 DB에서 멀었습니다.
+                마지막 몫은 쿼리를 고쳐도 줄지 않아, 재보지 않았다면 인덱스만 붙들고 있었을 겁니다.
+              </span>
+            </details>
           </li>
           <li>
-            <b>컬럼 하나를 채우려다 DB를 두 배로 만들 뻔했습니다</b> &mdash; 회전 정보를 기존 테이블에 붙이려다 먼저 재봤습니다.
-            <span class="metric">691,087행 UPDATE → 350.5MB에서 691.3MB · 무료 티어 여유는 130MB뿐</span>
-            <span class="why">
-              PostgreSQL은 UPDATE 때 행을 새로 쓰고 옛 행을 남깁니다(MVCC). 이 문장 하나로 운영이 한도를 넘습니다.
-              기존 테이블은 읽기만 하고 별도 테이블에만 쓰도록 바꿔, 서울·인천 69만 곳에 회전·상권까지 얹고도
-              <b>395MB / 500MB</b>입니다.
-            </span>
+            <details>
+              <summary>
+                <b>컬럼 하나를 채우려다 DB를 두 배로 만들 뻔했습니다</b> &mdash; 회전 정보를 기존 테이블에 붙이려다 먼저 재봤습니다.
+                <span class="metric">691,087행 UPDATE → 350.5MB에서 691.3MB · 무료 티어 여유는 130MB뿐</span>
+              </summary>
+              <span class="why">
+                PostgreSQL은 UPDATE 때 행을 새로 쓰고 옛 행을 남깁니다(MVCC). 이 문장 하나로 운영이 한도를 넘습니다.
+                기존 테이블은 읽기만 하고 별도 테이블에만 쓰도록 바꿔, 서울·인천 69만 곳에 회전·상권까지 얹고도
+                <b>395MB / 500MB</b>입니다.
+              </span>
+            </details>
           </li>
         </ul>
       </article>
@@ -742,7 +848,8 @@ footer {
           <h3>MutantHunter — 증명된 테스트만 제안하는 PR 봇</h3>
           <span class="period">2026</span>
         </div>
-        <p class="job-sub">TypeScript · GitHub Action · 자체 테스트 348개</p>
+        <p class="stack">TypeScript · Node.js · GitHub Actions · ts-morph · Stryker Mutator · Vitest · esbuild</p>
+        <p class="job-sub">자체 테스트 348개</p>
 
         <div class="links" style="margin-bottom:18px">
           <a href="https://pysoya.github.io/mutant-hunter/">소개</a>
@@ -752,39 +859,55 @@ footer {
 
         <ul class="items">
           <li>
-            <b>문제를 바꿨습니다</b> — “이 diff의 테스트를 써줘”는 정답이 없어 검증할 수 없습니다.
-            대신 코드를 일부러 망가뜨려 살아남는 지점을 찾고, “이 변형을 잡아내는 테스트를 써줘”로 바꿨습니다.
-            <span class="why">
-              커버리지는 그 줄이 실행됐는지만 봅니다. 틀렸을 때 누가 알아채는지는 묻지 않습니다.
-              변형을 주입하면 그 질문에 답할 수 있고, 답이 정해져 있으니 생성된 테스트를 실행으로 채점할 수 있습니다.
-            </span>
+            <details>
+              <summary>
+                <b>문제를 바꿨습니다</b> — “이 diff의 테스트를 써줘”는 정답이 없어 검증할 수 없습니다.
+                대신 코드를 일부러 망가뜨려 살아남는 지점을 찾고, “이 변형을 잡아내는 테스트를 써줘”로 바꿨습니다.
+              </summary>
+              <span class="why">
+                커버리지는 그 줄이 실행됐는지만 봅니다. 틀렸을 때 누가 알아채는지는 묻지 않습니다.
+                변형을 주입하면 그 질문에 답할 수 있고, 답이 정해져 있으니 생성된 테스트를 실행으로 채점할 수 있습니다.
+              </span>
+            </details>
           </li>
           <li>
-            <b>증명하지 못한 것은 제안하지 않습니다</b> — 5개 게이트 중 핵심은 “망가뜨린 코드에서 실패하는가”입니다.
-            <span class="metric">157건 폐기 / 그중 53건은 통과하지만 결함을 못 잡던 테스트</span>
-            <span class="why">
-              현재 코드에서 멀쩡히 통과하는 그럴듯한 테스트는 얼마든지 만들어집니다.
-              그런 테스트는 커버리지를 올리고 코드 리뷰도 통과하지만 아무것도 지켜주지 않습니다.
-              실제로 변형을 적용해 돌려봐야만 갈립니다.
-            </span>
+            <details>
+              <summary>
+                <b>증명하지 못한 것은 제안하지 않습니다</b> — 5개 게이트 중 핵심은 “망가뜨린 코드에서 실패하는가”입니다.
+                <span class="metric">157건 폐기 / 그중 53건은 통과하지만 결함을 못 잡던 테스트</span>
+              </summary>
+              <span class="why">
+                현재 코드에서 멀쩡히 통과하는 그럴듯한 테스트는 얼마든지 만들어집니다.
+                그런 테스트는 커버리지를 올리고 코드 리뷰도 통과하지만 아무것도 지켜주지 않습니다.
+                실제로 변형을 적용해 돌려봐야만 갈립니다.
+              </span>
+            </details>
           </li>
           <li>
-            <b>측정 장치를 먼저 만들었습니다</b> — 같은 조건을 반복해 잡음 폭을 재고,
-            그 기준으로 앞서 내린 A/B 판정 두 개를 스스로 철회했습니다.
-            <span class="why">
-              채택률이 25% → 29%로 올랐을 때 개선이라고 적었지만, 아무것도 바꾸지 않은 반복 실행에서도
-              같은 폭으로 흔들린다는 것을 확인했습니다. 대시보드가 채택률과 잡음 폭을 함께 그리는 이유입니다.
-              프롬프트 튜닝은 세 번 시도해 전부 효과를 입증하지 못했고, 그 사실도 그대로 남겨뒀습니다.
-            </span>
+            <details>
+              <summary>
+                <b>측정 장치를 먼저 만들었습니다</b> — 같은 조건을 반복해 잡음 폭을 재고,
+                그 기준으로 앞서 내린 A/B 판정 두 개를 스스로 철회했습니다.
+              </summary>
+              <span class="why">
+                채택률이 25% → 29%로 올랐을 때 개선이라고 적었지만, 아무것도 바꾸지 않은 반복 실행에서도
+                같은 폭으로 흔들린다는 것을 확인했습니다. 대시보드가 채택률과 잡음 폭을 함께 그리는 이유입니다.
+                프롬프트 튜닝은 세 번 시도해 전부 효과를 입증하지 못했고, 그 사실도 그대로 남겨뒀습니다.
+              </span>
+            </details>
           </li>
           <li>
-            <b>대상 선택이 3배 차이를 만듭니다</b> — 외부 오픈소스 3곳에 돌린 결과,
-            잘 테스트된 저장소에서는 제안이 0건이고 테스트가 없는 코드에서는 7건 중 6건이 채택됐습니다.
-            <span class="why">
-              잘 관리된 코드에 남은 변형은 어려운 잔여물뿐이라 제안할 것이 없습니다.
-              그때 침묵하는 것이 올바른 동작입니다 — 증명 못 한 것을 내밀면 메인테이너의 시간을 뺏고 신뢰를 한 번에 잃습니다.
-              외부 저장소에 처음 돌리면서 자체 환경에 가려져 있던 버그 3건도 함께 드러났습니다.
-            </span>
+            <details>
+              <summary>
+                <b>대상 선택이 3배 차이를 만듭니다</b> — 외부 오픈소스 3곳에 돌린 결과,
+                잘 테스트된 저장소에서는 제안이 0건이고 테스트가 없는 코드에서는 7건 중 6건이 채택됐습니다.
+              </summary>
+              <span class="why">
+                잘 관리된 코드에 남은 변형은 어려운 잔여물뿐이라 제안할 것이 없습니다.
+                그때 침묵하는 것이 올바른 동작입니다 — 증명 못 한 것을 내밀면 메인테이너의 시간을 뺏고 신뢰를 한 번에 잃습니다.
+                외부 저장소에 처음 돌리면서 자체 환경에 가려져 있던 버그 3건도 함께 드러났습니다.
+              </span>
+            </details>
           </li>
         </ul>
       </article>
@@ -794,7 +917,8 @@ footer {
           <h3>agent-trace-viewer — 코딩 에이전트 트레이스 뷰어</h3>
           <span class="period">2026</span>
         </div>
-        <p class="job-sub">Next.js · TypeScript · 로컬 실행 도구</p>
+        <p class="stack">Next.js 16 (App Router) · React 19 · TypeScript · node:sqlite · Tailwind 4 · Docker</p>
+        <p class="job-sub">로컬 실행 도구 (네이티브 모듈 없음)</p>
 
         <div class="links" style="margin-bottom:18px">
           <a href="https://pysoya.github.io/agent-trace-viewer/">소개</a>
@@ -803,35 +927,51 @@ footer {
 
         <ul class="items">
           <li>
-            <b>이미 있는 기록을 읽습니다</b> — Claude Code와 Codex는 모든 세션을 디스크에 남기지만 읽을 방법이 없습니다.
-            토큰·비용·도구 호출과 그 결과로 만들어진 PR·파일까지 보여줍니다.
-            <span class="why">
-              에이전트에 계측을 추가하지 않습니다. 남은 로그만 파싱하므로 대상 도구를 건드릴 필요가 없고,
-              로그가 외부로 나가지도 않습니다.
-            </span>
+            <details>
+              <summary>
+                <b>이미 있는 기록을 읽습니다</b> — Claude Code와 Codex는 모든 세션을 디스크에 남기지만 읽을 방법이 없습니다.
+                토큰·비용·도구 호출과 그 결과로 만들어진 PR·파일까지 보여줍니다.
+              </summary>
+              <span class="why">
+                에이전트에 계측을 추가하지 않습니다. 남은 로그만 파싱하므로 대상 도구를 건드릴 필요가 없고,
+                로그가 외부로 나가지도 않습니다.
+              </span>
+            </details>
           </li>
           <li>
-            <b>숫자가 무엇인지 명시합니다</b> — 비용은 API 정가 환산이지 청구액이 아니라고 화면에 적습니다.
-            <span class="why">
-              로그에는 토큰 수만 있고 과금 정보가 없습니다. 종량제 키였는지 정액 구독이었는지 로그는 모릅니다.
-              “이 토큰이 공개 요율이었다면 얼마였을까”는 세션을 비교할 때 맞는 질문이지만, 청구서와는 다릅니다.
-              캐시 배수를 반영해 프롬프트 캐싱이 실제로 아낀 양도 숫자에 들어갑니다.
-            </span>
+            <details>
+              <summary>
+                <b>숫자가 무엇인지 명시합니다</b> — 비용은 API 정가 환산이지 청구액이 아니라고 화면에 적습니다.
+              </summary>
+              <span class="why">
+                로그에는 토큰 수만 있고 과금 정보가 없습니다. 종량제 키였는지 정액 구독이었는지 로그는 모릅니다.
+                “이 토큰이 공개 요율이었다면 얼마였을까”는 세션을 비교할 때 맞는 질문이지만, 청구서와는 다릅니다.
+                캐시 배수를 반영해 프롬프트 캐싱이 실제로 아낀 양도 숫자에 들어갑니다.
+              </span>
+            </details>
           </li>
           <li>
-            <b>임계값은 재서 정했습니다</b> — “활동 시간”은 벽시계 시간에서 유휴를 뺀 값이고, 기준은 5분입니다.
-            <span class="why">
-              사흘 뒤 이어붙인 세션은 429시간에 걸쳐 있지만 실제 작업은 3시간쯤입니다.
-              5분과 15분 사이에서 총합이 거의 움직이지 않아, 짧은 공백과 진짜 유휴가 그 지점에서 깨끗하게 갈립니다.
-            </span>
+            <details>
+              <summary>
+                <b>임계값은 재서 정했습니다</b> — “활동 시간”은 벽시계 시간에서 유휴를 뺀 값이고, 기준은 5분입니다.
+              </summary>
+              <span class="why">
+                사흘 뒤 이어붙인 세션은 429시간에 걸쳐 있지만 실제 작업은 3시간쯤입니다.
+                5분과 15분 사이에서 총합이 거의 움직이지 않아, 짧은 공백과 진짜 유휴가 그 지점에서 깨끗하게 갈립니다.
+              </span>
+            </details>
           </li>
           <li>
-            <b>자격증명은 넘기지 않습니다</b> — Docker 실행 시 로그는 읽기 전용으로 마운트하고,
-            <code>~/.codex</code>는 통째로 붙이지 않습니다.
-            <span class="why">
-              그 디렉터리에 <code>auth.json</code>이 있습니다. 트레이스를 읽자고 컨테이너에 자격증명을 줄 이유는 없어,
-              세션 디렉터리와 이름 색인만 따로 마운트합니다.
-            </span>
+            <details>
+              <summary>
+                <b>자격증명은 넘기지 않습니다</b> — Docker 실행 시 로그는 읽기 전용으로 마운트하고,
+                <code>~/.codex</code>는 통째로 붙이지 않습니다.
+              </summary>
+              <span class="why">
+                그 디렉터리에 <code>auth.json</code>이 있습니다. 트레이스를 읽자고 컨테이너에 자격증명을 줄 이유는 없어,
+                세션 디렉터리와 이름 색인만 따로 마운트합니다.
+              </span>
+            </details>
           </li>
         </ul>
       </article>
@@ -842,19 +982,23 @@ footer {
       <dl>
         <div class="stack-row">
           <dt>Backend</dt>
-          <dd>Java 17/21, Spring Boot 3.2–3.5, JPA, QueryDSL, MySQL, MSSQL, PostgreSQL/PostGIS, MongoDB, Redis, Meilisearch</dd>
+          <dd>Java 17/21, Spring Boot 3.2–3.5, JPA, QueryDSL, Python, FastAPI, PaddleOCR(GPU 추론), MySQL, MSSQL, PostgreSQL/PostGIS, MongoDB, Redis, Meilisearch</dd>
         </div>
         <div class="stack-row">
           <dt>Frontend</dt>
-          <dd>TypeScript, React 18/19, Next.js 15/16 (App Router), TanStack Query, Tailwind, Turborepo</dd>
+          <dd>TypeScript, React 18/19, Next.js 15/16 (App Router), TanStack Query, Zod, Tailwind, Turborepo</dd>
         </div>
         <div class="stack-row">
           <dt>Mobile</dt>
-          <dd>React Native 0.78, Redux Toolkit, Zustand, Firebase, CodePush</dd>
+          <dd>React Native 0.78 (bare), Redux Toolkit, Zustand, Vision Camera, Drizzle ORM, Firebase, Amplitude, CodePush</dd>
         </div>
         <div class="stack-row">
           <dt>Infra</dt>
           <dd>NCP, Vercel, Supabase, Docker, GitHub Actions, nginx, 무중단 배포, 결제 PG 연동, Sentry</dd>
+        </div>
+        <div class="stack-row">
+          <dt>테스트</dt>
+          <dd>Vitest, Playwright, node:test, Stryker Mutator, PostGIS 컨테이너 기반 통합 테스트</dd>
         </div>
       </dl>
     </section>
@@ -942,6 +1086,20 @@ footer {
   var copy = document.getElementById('copy-mail');
 
   if (print) print.addEventListener('click', function () { window.print(); });
+
+  // 인쇄(PDF 저장) 때는 접힌 설명도 모두 나와야 한다 — 인쇄 후 원래 상태로 되돌린다
+  var reopened = [];
+  window.addEventListener('beforeprint', function () {
+    reopened = Array.prototype.filter.call(
+      document.querySelectorAll('.items details'),
+      function (d) { return !d.open; }
+    );
+    reopened.forEach(function (d) { d.open = true; });
+  });
+  window.addEventListener('afterprint', function () {
+    reopened.forEach(function (d) { d.open = false; });
+    reopened = [];
+  });
 
   if (copy) copy.addEventListener('click', function () {
     var done = function () {
