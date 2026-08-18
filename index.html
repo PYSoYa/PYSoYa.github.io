@@ -679,8 +679,67 @@ footer {
       <h2>개인 프로젝트</h2>
 
       <p class="job-sub" style="margin-bottom:28px">
-        회사 업무와 별개로, 관심 있는 문제를 끝까지 만들어 본 것들입니다. 둘 다 공개 저장소입니다.
+        회사 업무와 별개로, 관심 있는 문제를 끝까지 만들어 본 것들입니다. 셋 다 공개 저장소입니다.
       </p>
+
+      <article class="job">
+        <div class="job-head">
+          <h3>jario — 창업할 자리의 경쟁 밀도를 세는 지도</h3>
+          <span class="period">2026</span>
+        </div>
+        <p class="job-sub">Next.js 16 · PostgreSQL/PostGIS · Supabase · Vercel · 자체 테스트 58개</p>
+
+        <div class="links" style="margin-bottom:18px">
+          <a href="https://jario-pysoya1.vercel.app">서비스</a>
+          <a href="https://github.com/PYSoYa/jario">저장소</a>
+        </div>
+
+        <ul class="items">
+          <li>
+            <b>좌표의 85%가 겹쳐 있었습니다</b> — 소상공인시장진흥공단 데이터는 건물 단위로 지오코딩돼 있어,
+            같은 건물의 업소는 지도에서 완전히 같은 점을 씁니다. 마커를 누르면 그 자리에 무엇이 있는지부터 보여주고,
+            거기서 하나를 고르면 상세로 갑니다.
+            <span class="metric">691,087곳 중 587,841곳이 좌표 중복 · 한 지점 최대 1,040곳</span>
+            <span class="why">
+              재보기 전에는 드문 예외인 줄 알았습니다. 그대로 뒀다면 겹친 지점에서 맨 위 한 곳만 열리고
+              같은 건물의 나머지는 닿을 방법이 없습니다. 화면은 멀쩡해 보이고 에러도 안 나기 때문에,
+              데이터를 직접 세어보지 않으면 끝까지 모릅니다.
+            </span>
+          </li>
+          <li>
+            <b>느린 원인은 하나가 아니었습니다</b> — 인천만 있을 때 0.5초이던 동네 분석이 서울을 더하자 68초가 됐습니다.
+            EXPLAIN ANALYZE로 네 몫을 갈라 각각 다르게 고쳤습니다.
+            <span class="metric">68s → 0.18~0.22s</span>
+            <span class="why">
+              업종 접두어가 인덱스를 못 타 순차 스캔(5,603ms), 인덱스는 타도 힙 접근이 남음(Heap Blocks 17,724 →
+              커버링 인덱스로 Heap Fetches 0), 동별 총계를 매 요청마다 691,087행에서 집계(585행으로 사전 계산),
+              그리고 DB 쿼리가 289ms인데 응답은 1.9초 — 서버 리전이 서울 DB에서 멀었습니다.
+              마지막 몫은 쿼리를 아무리 고쳐도 줄지 않는 부분이라, 재보지 않았다면 인덱스만 붙들고 있었을 겁니다.
+              화면이 뜨는 시간은 따로 잡아 1,752ms → 248ms입니다(원인의 대부분이 한글 웹폰트였습니다).
+            </span>
+          </li>
+          <li>
+            <b>지도가 거짓말하지 않게 했습니다</b> — 마커에 상한이 있으니 무엇을 남길지가 문제입니다.
+            가까운 순으로 자르지 않고 반경 전체에서 고르게 표본을 뽑습니다.
+            <span class="why">
+              밀집 지역에서 가까운 순 500개는 전부 중심 120m 안에 들어옵니다. 반경 500m 원을 그려놓고
+              가운데만 점이 차 있으면 화면은 “바깥은 한산하다”고 말하지만 사실은 정반대입니다.
+              같은 이유로 총 개수는 표본과 별개로 셉니다 — 잘린 수를 답으로 내놓을 수는 없습니다.
+            </span>
+          </li>
+          <li>
+            <b>무료 티어를 설계 조건으로 잡았습니다</b> — 쓰는 컬럼만 남기고 좌표는 공간 인덱스가 걸린 한 컬럼으로 정리해,
+            서울·인천 전부를 한도 안에 넣었습니다.
+            <span class="metric">343MB / 500MB</span>
+            <span class="why">
+              로그인이 없어 리포트 생성이 열려 있는 만큼, 뚫리면 무료 DB가 리포트로 찹니다. IP 해시 기준 한도를
+              원자적으로 걸고 초과 시 429를 돌려줍니다. 무료 DB는 놀려두면 정지되므로 keep-alive를 서로 다른 두 곳에
+              이중으로 걸었습니다 — 한쪽이 죽어도 다른 쪽이 깨웁니다.
+              공간 쿼리는 목으로 검증되지 않아, CI에서 PostGIS 컨테이너를 띄우고 실제 데이터 조각으로 돌립니다.
+            </span>
+          </li>
+        </ul>
+      </article>
 
       <article class="job">
         <div class="job-head">
@@ -787,11 +846,11 @@ footer {
       <dl>
         <div class="stack-row">
           <dt>Backend</dt>
-          <dd>Java 17/21, Spring Boot 3.2–3.5, JPA, QueryDSL, MySQL, MSSQL, MongoDB, Redis, Meilisearch</dd>
+          <dd>Java 17/21, Spring Boot 3.2–3.5, JPA, QueryDSL, MySQL, MSSQL, PostgreSQL/PostGIS, MongoDB, Redis, Meilisearch</dd>
         </div>
         <div class="stack-row">
           <dt>Frontend</dt>
-          <dd>TypeScript, React 18/19, Next.js 15 (App Router), TanStack Query, Tailwind, Turborepo</dd>
+          <dd>TypeScript, React 18/19, Next.js 15/16 (App Router), TanStack Query, Tailwind, Turborepo</dd>
         </div>
         <div class="stack-row">
           <dt>Mobile</dt>
@@ -799,7 +858,7 @@ footer {
         </div>
         <div class="stack-row">
           <dt>Infra</dt>
-          <dd>NCP, Docker, GitHub Actions, nginx, 무중단 배포, 결제 PG 연동, Sentry</dd>
+          <dd>NCP, Vercel, Supabase, Docker, GitHub Actions, nginx, 무중단 배포, 결제 PG 연동, Sentry</dd>
         </div>
       </dl>
     </section>
